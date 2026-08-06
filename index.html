@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  @page {
+    size: A4;
+    margin: 15mm 20mm;
+    background-color: #ffffff;
+  }
+  body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    font-size: 11pt;
+    max-width: 210mm;
+    margin: auto;
+  }
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  h1 {
+    text-align: center;
+    color: #1a365d;
+    font-size: 18pt;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+  }
+  .subtitle {
+    text-align: center;
+    color: #4a5568;
+    font-size: 11pt;
+    margin-bottom: 25px;
+  }
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+  }
+  .info-table td {
+    padding: 10px;
+    border: 1px solid #cbd5e0;
+  }
+  .info-table td.label {
+    font-weight: bold;
+    background-color: #edf2f7;
+    width: 20%;
+    color: #2d3748;
+  }
+  
+  /* Input styling */
+  input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    font-size: 11pt;
+    font-family: inherit;
+    border: 1px solid #a0aec0;
+    border-radius: 3px;
+    background-color: #f7fafc;
+  }
+  
+  .inline-input {
+    width: 250px !important;
+    margin-left: 10px;
+  }
+  
+  .short-input {
+    width: 100px !important;
+    margin-left: 10px;
+  }
+
+  input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    position: relative;
+    top: 2px;
+    cursor: pointer;
+  }
+
+  h2 {
+    background-color: #2b6cb0;
+    color: white;
+    padding: 8px 12px;
+    font-size: 13pt;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    border-radius: 3px;
+  }
+  .question-block {
+    margin-bottom: 18px;
+    page-break-inside: avoid;
+  }
+  .question {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #2d3748;
+  }
+  .options {
+    margin-left: 20px;
+  }
+  .option {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+  }
+  .option label {
+    cursor: pointer;
+  }
+
+  .footer {
+    margin-top: 50px;
+    width: 100%;
+    page-break-inside: avoid;
+    display: flex;
+    justify-content: space-between;
+  }
+  .signature-block {
+    width: 45%;
+  }
+  .sig-line {
+    border-top: 1px solid #000;
+    margin-top: 40px;
+    padding-top: 5px;
+    font-weight: bold;
+    color: #4a5568;
+    text-align: center;
+  }
+
+  /* Print specific styles to make it look like a clean PDF */
+  @media print {
+    body {
+      padding: 0;
+    }
+    input[type="text"] {
+      border: none;
+      border-bottom: 1px solid #718096;
+      background-color: transparent;
+      border-radius: 0;
+      padding: 0;
+    }
+    h2 {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .info-table td.label {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
+  <h1>CCTV Site Survey Checklist</h1>
+  <div class="subtitle">State of Qatar MOI-SSD Compliance Focus</div>
+  
+  <table class="info-table">
+    <tr>
+      <td class="label">Client / Site Name:</td>
+      <td><input type="text" placeholder="Enter client/site name..."></td>
+      <td class="label">Date:</td>
+      <td><input type="text" placeholder="DD/MM/YYYY"></td>
+    </tr>
+    <tr>
+      <td class="label">Location / Zone:</td>
+      <td><input type="text" placeholder="Enter location..."></td>
+      <td class="label">Technician Name:</td>
+      <td><input type="text" placeholder="Enter technician name..."></td>
+    </tr>
+  </table>
+
+  <h2>1. Existing System Status</h2>
+  <div class="question-block">
+    <div class="question">1.1 Are there existing CCTV cameras on site?</div>
+    <div class="options">
+      <div class="option"><label><input type="checkbox"> Yes <i>(If yes, proceed below)</i></label></div>
+      <div class="option"><label><input type="checkbox"> No <i>(If no, skip to Section 3)</i></label></div>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <div class="question">1.2 What is the general condition of the existing system?</div>
+    <div class="options">
+      <div class="option"><label><input type="checkbox"> Fully Operational</label></div>
+      <div class="option"><label><input type="checkbox"> Partially Operational</label></div>
+      <div class="option"><label><input type="checkbox"> Non-Operational</label></div>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <div class="question">1.3 Existing Equipment Inventory:</div>
+    <div class="options">
+      <div class="option">Total number of existing cameras: <input type="text" class="inline-input short-input"></div>
+      <div class="option">Number of ANPR cameras: <input type="text" class="inline-input short-input"></div>
+      <div class="option">Number of KPOI cameras / locations: <input type="text" class="inline-input short-input"></div>
+      <div class="option">Type of cameras (IP / Analog / PTZ): <input type="text" class="inline-input"></div>
+      <div class="option">Existing NVR/Server Brand: <input type="text" class="inline-input"></div>
+      <div class="option">Existing Storage Capacity: <input type="text" class="inline-input"></div>
+      <div class="option">Specific CCTV Control Room Available: 
+        <label style="margin-left: 10px;"><input type="checkbox"> Yes</label> 
+        <label style="margin-left: 15px;"><input type="checkbox"> No</label>
+      </div>
+    </div>
+  </div>
+
+  <h2>2. MOI-SSD Compliance & Installation History</h2>
+  <div class="question-block">
+    <div class="question">2.1 Is the current setup MOI-SSD approved?</div>
+    <div class="options">
+      <div class="option"><label><input type="checkbox"> Yes <i>(Request to see the MOI Certificate / NOC)</i></label></div>
+      <div class="option"><label><input type="checkbox"> No</label></div>
+      <div class="option"><label><input type="checkbox"> Unknown</label></div>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <div class="question">2.2 Are the existing cameras and hardware on the current MOI-SSD approved list?</div>
+    <div class="options">
+      <div class="option"><label><input type="checkbox"> Yes</label></div>
+      <div class="option"><label><input type="checkbox"> No</label></div>
+      <div class="option"><label><input type="checkbox"> Needs Verification</label></div>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <div class="question">2.3 Previous Installer Information:</div>
+    <div class="options">
+      <div class="option">Installing Company Name: <input type="text" class="inline-input"></div>
+      <div class="option">Contact Person / Number: <input type="text" class="inline-input"></div>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <div class="question">2.4 Was the previous installer an officially MOI-approved CCTV contractor?</div>
+    <div class="options">
+      <div class="option"><label><input type="checkbox"> Yes</label></div>
+      <div class="option"><label><input type="checkbox"> No</label></div>
+      <div class="option"><label><input type="checkbox"> Unknown</label></div>
+    </div>
+  </div>
+
+  <h2>3. Client Documentation & Drawings</h2>
+  <div class="question-block">
+    <div class="question">3.1 Does the client have an existing Bill of Quantities (BOQ)?</div>
+    <div class="options">
+      <div class="option"><label><input type="checkbox"> Yes <i>(Request a physical or digital copy)</i></label></div>
+      <div class="option"><label><input type="checkbox"> No</label></div>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <div class="question">3.2 Does the client have the existing CCTV Layout or Architectural Layout?</div>
+    <div class="options">
+      <div class="option"><label><input type="checkbox"> Yes, CCTV Layout <i>(Request AutoCAD/PDF files)</i></label></div>
+      <div class="option"><label><input type="checkbox"> Yes, Architectural Layout / Floor Plans only</label></div>
+      <div class="option"><label><input type="checkbox"> No existing layouts available</label></div>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <div class="question">3.3 Does the client have the previous MOI-SSD approved drawings (Design or As-Built)?</div>
+    <div class="options">
+      <div class="option"><label><input type="checkbox"> Yes</label></div>
+      <div class="option"><label><input type="checkbox"> No</label></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="signature-block">
+      <div class="sig-line">Technician Signature</div>
+    </div>
+    <div class="signature-block">
+      <div class="sig-line">Client Representative Signature</div>
+    </div>
+  </div>
+</body>
+</html>
