@@ -1,12 +1,13 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCTV Site Survey Checklist - Qatar MOI-SSD</title>
 <style>
   @page {
     size: A4;
     margin: 15mm 20mm;
-    background-color: #ffffff;
   }
   body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -16,14 +17,22 @@
     font-size: 11pt;
     max-width: 210mm;
     margin: auto;
+    background-color: #f8fafc;
   }
   *, *::before, *::after {
     box-sizing: border-box;
+  }
+  .paper-container {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
   h1 {
     text-align: center;
     color: #1a365d;
     font-size: 18pt;
+    margin-top: 0;
     margin-bottom: 5px;
     text-transform: uppercase;
   }
@@ -39,7 +48,7 @@
     margin-bottom: 25px;
   }
   .info-table td {
-    padding: 10px;
+    padding: 8px 10px;
     border: 1px solid #cbd5e0;
   }
   .info-table td.label {
@@ -49,26 +58,18 @@
     color: #2d3748;
   }
   
-  /* Input styling */
   input[type="text"] {
     width: 100%;
-    padding: 5px;
-    font-size: 11pt;
+    padding: 6px;
+    font-size: 10.5pt;
     font-family: inherit;
     border: 1px solid #a0aec0;
-    border-radius: 3px;
+    border-radius: 4px;
     background-color: #f7fafc;
   }
   
-  .inline-input {
-    width: 250px !important;
-    margin-left: 10px;
-  }
-  
-  .short-input {
-    width: 100px !important;
-    margin-left: 10px;
-  }
+  .inline-input { width: 250px !important; margin-left: 10px; }
+  .short-input { width: 100px !important; margin-left: 10px; }
 
   input[type="checkbox"] {
     width: 16px;
@@ -83,42 +84,32 @@
     background-color: #2b6cb0;
     color: white;
     padding: 8px 12px;
-    font-size: 13pt;
+    font-size: 12pt;
     margin-top: 20px;
     margin-bottom: 15px;
-    border-radius: 3px;
+    border-radius: 4px;
   }
   .question-block {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     page-break-inside: avoid;
   }
   .question {
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     color: #2d3748;
   }
-  .options {
-    margin-left: 20px;
-  }
-  .option {
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-  }
-  .option label {
-    cursor: pointer;
-  }
+  .options { margin-left: 15px; }
+  .option { margin-bottom: 8px; display: flex; align-items: center; }
+  .option label { cursor: pointer; }
 
   .footer {
-    margin-top: 50px;
+    margin-top: 45px;
     width: 100%;
     page-break-inside: avoid;
     display: flex;
     justify-content: space-between;
   }
-  .signature-block {
-    width: 45%;
-  }
+  .signature-block { width: 45%; }
   .sig-line {
     border-top: 1px solid #000;
     margin-top: 40px;
@@ -128,11 +119,36 @@
     text-align: center;
   }
 
-  /* Print specific styles to make it look like a clean PDF */
+  /* Action Bar Styling */
+  .action-bar {
+    background: #ebf8ff;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    text-align: center;
+    border: 1px solid #bee3f8;
+  }
+  .btn-submit {
+    background-color: #2b6cb0;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 12pt;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background 0.2s;
+  }
+  .btn-submit:hover { background-color: #1a365d; }
+  .btn-submit:disabled { background-color: #a0aec0; cursor: not-allowed; }
+  #status-msg { margin-top: 10px; font-weight: bold; font-size: 11pt; }
+
+  /* Hide Action Bar when exporting PDF or printing */
   @media print {
-    body {
-      padding: 0;
-    }
+    body { padding: 0; background-color: #ffffff; }
+    .paper-container { padding: 0; box-shadow: none; }
+    .action-bar { display: none !important; }
     input[type="text"] {
       border: none;
       border-bottom: 1px solid #718096;
@@ -140,139 +156,228 @@
       border-radius: 0;
       padding: 0;
     }
-    h2 {
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-    }
-    .info-table td.label {
+    h2, .info-table td.label {
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
   }
 </style>
+
+<!-- Load html2pdf Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
-  <h1>CCTV Site Survey Checklist</h1>
-  <div class="subtitle">State of Qatar MOI-SSD Compliance Focus</div>
-  
-  <table class="info-table">
-    <tr>
-      <td class="label">Client / Site Name:</td>
-      <td><input type="text" placeholder="Enter client/site name..."></td>
-      <td class="label">Date:</td>
-      <td><input type="text" placeholder="DD/MM/YYYY"></td>
-    </tr>
-    <tr>
-      <td class="label">Location / Zone:</td>
-      <td><input type="text" placeholder="Enter location..."></td>
-      <td class="label">Technician Name:</td>
-      <td><input type="text" placeholder="Enter technician name..."></td>
-    </tr>
-  </table>
 
-  <h2>1. Existing System Status</h2>
-  <div class="question-block">
-    <div class="question">1.1 Are there existing CCTV cameras on site?</div>
-    <div class="options">
-      <div class="option"><label><input type="checkbox"> Yes <i>(If yes, proceed below)</i></label></div>
-      <div class="option"><label><input type="checkbox"> No <i>(If no, skip to Section 3)</i></label></div>
-    </div>
+  <!-- Submission Bar -->
+  <div class="action-bar" id="action-bar">
+    <button type="button" class="btn-submit" id="submit-btn" onclick="sendFormAsPDF()">Save & Send PDF via Email</button>
+    <div id="status-msg"></div>
   </div>
 
-  <div class="question-block">
-    <div class="question">1.2 What is the general condition of the existing system?</div>
-    <div class="options">
-      <div class="option"><label><input type="checkbox"> Fully Operational</label></div>
-      <div class="option"><label><input type="checkbox"> Partially Operational</label></div>
-      <div class="option"><label><input type="checkbox"> Non-Operational</label></div>
-    </div>
-  </div>
+  <div class="paper-container" id="form-content">
+    <h1>CCTV Site Survey Checklist</h1>
+    <div class="subtitle">State of Qatar MOI-SSD Compliance Focus</div>
+    
+    <table class="info-table">
+      <tr>
+        <td class="label">Client / Site Name:</td>
+        <td><input type="text" id="site_name" placeholder="Enter client/site name..."></td>
+        <td class="label">Date:</td>
+        <td><input type="text" placeholder="DD/MM/YYYY"></td>
+      </tr>
+      <tr>
+        <td class="label">Location / Zone:</td>
+        <td><input type="text" placeholder="Enter location..."></td>
+        <td class="label">Technician Name:</td>
+        <td><input type="text" placeholder="Enter technician name..."></td>
+      </tr>
+    </table>
 
-  <div class="question-block">
-    <div class="question">1.3 Existing Equipment Inventory:</div>
-    <div class="options">
-      <div class="option">Total number of existing cameras: <input type="text" class="inline-input short-input"></div>
-      <div class="option">Number of ANPR cameras: <input type="text" class="inline-input short-input"></div>
-      <div class="option">Number of KPOI cameras / locations: <input type="text" class="inline-input short-input"></div>
-      <div class="option">Type of cameras (IP / Analog / PTZ): <input type="text" class="inline-input"></div>
-      <div class="option">Existing NVR/Server Brand: <input type="text" class="inline-input"></div>
-      <div class="option">Existing Storage Capacity: <input type="text" class="inline-input"></div>
-      <div class="option">Specific CCTV Control Room Available: 
-        <label style="margin-left: 10px;"><input type="checkbox"> Yes</label> 
-        <label style="margin-left: 15px;"><input type="checkbox"> No</label>
+    <h2>1. Existing System Status</h2>
+    <div class="question-block">
+      <div class="question">1.1 Are there existing CCTV cameras on site?</div>
+      <div class="options">
+        <div class="option"><label><input type="checkbox" name="q1_1"> Yes <i>(If yes, proceed below)</i></label></div>
+        <div class="option"><label><input type="checkbox" name="q1_1"> No <i>(If no, skip to Section 3)</i></label></div>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question">1.2 What is the general condition of the existing system?</div>
+      <div class="options">
+        <div class="option"><label><input type="checkbox" name="q1_2"> Fully Operational</label></div>
+        <div class="option"><label><input type="checkbox" name="q1_2"> Partially Operational</label></div>
+        <div class="option"><label><input type="checkbox" name="q1_2"> Non-Operational</label></div>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question">1.3 Existing Equipment Inventory:</div>
+      <div class="options">
+        <div class="option">Total number of existing cameras: <input type="text" class="inline-input short-input"></div>
+        <div class="option">Number of ANPR cameras: <input type="text" class="inline-input short-input"></div>
+        <div class="option">Number of KPOI cameras / locations: <input type="text" class="inline-input short-input"></div>
+        <div class="option">Type of cameras (IP / Analog / PTZ): <input type="text" class="inline-input"></div>
+        <div class="option">Existing NVR/Server Brand: <input type="text" class="inline-input"></div>
+        <div class="option">Existing Storage Capacity: <input type="text" class="inline-input"></div>
+        <div class="option">Specific CCTV Control Room Available: 
+          <label style="margin-left: 10px;"><input type="checkbox" name="ctrl_room"> Yes</label> 
+          <label style="margin-left: 15px;"><input type="checkbox" name="ctrl_room"> No</label>
+        </div>
+      </div>
+    </div>
+
+    <h2>2. MOI-SSD Compliance & Installation History</h2>
+    <div class="question-block">
+      <div class="question">2.1 Is the current setup MOI-SSD approved?</div>
+      <div class="options">
+        <div class="option"><label><input type="checkbox" name="q2_1"> Yes <i>(Request to see the MOI Certificate / NOC)</i></label></div>
+        <div class="option"><label><input type="checkbox" name="q2_1"> No</label></div>
+        <div class="option"><label><input type="checkbox" name="q2_1"> Unknown</label></div>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question">2.2 Are the existing cameras and hardware on the current MOI-SSD approved list?</div>
+      <div class="options">
+        <div class="option"><label><input type="checkbox" name="q2_2"> Yes</label></div>
+        <div class="option"><label><input type="checkbox" name="q2_2"> No</label></div>
+        <div class="option"><label><input type="checkbox" name="q2_2"> Needs Verification</label></div>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question">2.3 Previous Installer Information:</div>
+      <div class="options">
+        <div class="option">Installing Company Name: <input type="text" class="inline-input"></div>
+        <div class="option">Contact Person / Number: <input type="text" class="inline-input"></div>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question">2.4 Was the previous installer an officially MOI-approved CCTV contractor?</div>
+      <div class="options">
+        <div class="option"><label><input type="checkbox" name="q2_4"> Yes</label></div>
+        <div class="option"><label><input type="checkbox" name="q2_4"> No</label></div>
+        <div class="option"><label><input type="checkbox" name="q2_4"> Unknown</label></div>
+      </div>
+    </div>
+
+    <h2>3. Client Documentation & Drawings</h2>
+    <div class="question-block">
+      <div class="question">3.1 Does the client have an existing Bill of Quantities (BOQ)?</div>
+      <div class="options">
+        <div class="option"><label><input type="checkbox" name="q3_1"> Yes <i>(Request a physical or digital copy)</i></label></div>
+        <div class="option"><label><input type="checkbox" name="q3_1"> No</label></div>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question">3.2 Does the client have the existing CCTV Layout or Architectural Layout?</div>
+      <div class="options">
+        <div class="option"><label><input type="checkbox" name="q3_2"> Yes, CCTV Layout <i>(Request AutoCAD/PDF files)</i></label></div>
+        <div class="option"><label><input type="checkbox" name="q3_2"> Yes, Architectural Layout / Floor Plans only</label></div>
+        <div class="option"><label><input type="checkbox" name="q3_2"> No existing layouts available</label></div>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question">3.3 Does the client have the previous MOI-SSD approved drawings (Design or As-Built)?</div>
+      <div class="options">
+        <div class="option"><label><input type="checkbox" name="q3_3"> Yes</label></div>
+        <div class="option"><label><input type="checkbox" name="q3_3"> No</label></div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="signature-block">
+        <div class="sig-line">Technician Signature</div>
+      </div>
+      <div class="signature-block">
+        <div class="sig-line">Client Representative Signature</div>
       </div>
     </div>
   </div>
 
-  <h2>2. MOI-SSD Compliance & Installation History</h2>
-  <div class="question-block">
-    <div class="question">2.1 Is the current setup MOI-SSD approved?</div>
-    <div class="options">
-      <div class="option"><label><input type="checkbox"> Yes <i>(Request to see the MOI Certificate / NOC)</i></label></div>
-      <div class="option"><label><input type="checkbox"> No</label></div>
-      <div class="option"><label><input type="checkbox"> Unknown</label></div>
-    </div>
-  </div>
+  <script>
+    // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
+    const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_WEB_APP_URL_HERE";
 
-  <div class="question-block">
-    <div class="question">2.2 Are the existing cameras and hardware on the current MOI-SSD approved list?</div>
-    <div class="options">
-      <div class="option"><label><input type="checkbox"> Yes</label></div>
-      <div class="option"><label><input type="checkbox"> No</label></div>
-      <div class="option"><label><input type="checkbox"> Needs Verification</label></div>
-    </div>
-  </div>
+    function syncDomState() {
+      // Sync text input values into HTML attributes for pdf renderer
+      document.querySelectorAll('input[type="text"]').forEach(input => {
+        input.setAttribute('value', input.value);
+      });
+      // Sync checkbox states
+      document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        if (checkbox.checked) {
+          checkbox.setAttribute('checked', 'checked');
+        } else {
+          checkbox.removeAttribute('checked');
+        }
+      });
+    }
 
-  <div class="question-block">
-    <div class="question">2.3 Previous Installer Information:</div>
-    <div class="options">
-      <div class="option">Installing Company Name: <input type="text" class="inline-input"></div>
-      <div class="option">Contact Person / Number: <input type="text" class="inline-input"></div>
-    </div>
-  </div>
+    async function sendFormAsPDF() {
+      const btn = document.getElementById('submit-btn');
+      const status = document.getElementById('status-msg');
+      const actionBar = document.getElementById('action-bar');
+      const siteName = document.getElementById('site_name').value.trim() || 'Survey';
 
-  <div class="question-block">
-    <div class="question">2.4 Was the previous installer an officially MOI-approved CCTV contractor?</div>
-    <div class="options">
-      <div class="option"><label><input type="checkbox"> Yes</label></div>
-      <div class="option"><label><input type="checkbox"> No</label></div>
-      <div class="option"><label><input type="checkbox"> Unknown</label></div>
-    </div>
-  </div>
+      if (GOOGLE_SCRIPT_URL === "YOUR_GOOGLE_WEB_APP_URL_HERE") {
+        alert("Please replace GOOGLE_SCRIPT_URL with your actual Google Script Web App URL.");
+        return;
+      }
 
-  <h2>3. Client Documentation & Drawings</h2>
-  <div class="question-block">
-    <div class="question">3.1 Does the client have an existing Bill of Quantities (BOQ)?</div>
-    <div class="options">
-      <div class="option"><label><input type="checkbox"> Yes <i>(Request a physical or digital copy)</i></label></div>
-      <div class="option"><label><input type="checkbox"> No</label></div>
-    </div>
-  </div>
+      btn.disabled = true;
+      status.innerText = "Generating PDF and sending email...";
+      status.style.color = "#2b6cb0";
 
-  <div class="question-block">
-    <div class="question">3.2 Does the client have the existing CCTV Layout or Architectural Layout?</div>
-    <div class="options">
-      <div class="option"><label><input type="checkbox"> Yes, CCTV Layout <i>(Request AutoCAD/PDF files)</i></label></div>
-      <div class="option"><label><input type="checkbox"> Yes, Architectural Layout / Floor Plans only</label></div>
-      <div class="option"><label><input type="checkbox"> No existing layouts available</label></div>
-    </div>
-  </div>
+      // Ensure form selections copy to HTML snapshot
+      syncDomState();
 
-  <div class="question-block">
-    <div class="question">3.3 Does the client have the previous MOI-SSD approved drawings (Design or As-Built)?</div>
-    <div class="options">
-      <div class="option"><label><input type="checkbox"> Yes</label></div>
-      <div class="option"><label><input type="checkbox"> No</label></div>
-    </div>
-  </div>
+      // Temporarily hide action bar
+      actionBar.style.display = 'none';
 
-  <div class="footer">
-    <div class="signature-block">
-      <div class="sig-line">Technician Signature</div>
-    </div>
-    <div class="signature-block">
-      <div class="sig-line">Client Representative Signature</div>
-    </div>
-  </div>
+      const element = document.getElementById('form-content');
+      const fileName = `CCTV_Survey_${siteName}.pdf`;
+      
+      const opt = {
+        margin:       [10, 10, 10, 10],
+        filename:     fileName,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      try {
+        // 1. Generate PDF as Base64 string
+        const pdfBase64 = await html2pdf().set(opt).from(element).outputPdf('datauristring');
+
+        // 2. Send payload to Google Apps Script
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            siteName: siteName,
+            fileName: fileName,
+            pdfBase64: pdfBase64
+          })
+        });
+
+        actionBar.style.display = 'block';
+        status.innerText = "✓ Survey PDF submitted and emailed successfully!";
+        status.style.color = "green";
+      } catch (err) {
+        console.error("Failed to send PDF:", err);
+        actionBar.style.display = 'block';
+        status.innerText = "✕ Error submitting form. Please try again.";
+        status.style.color = "red";
+      } finally {
+        btn.disabled = false;
+      }
+    }
+  </script>
 </body>
 </html>
